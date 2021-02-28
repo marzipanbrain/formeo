@@ -400,8 +400,27 @@ export default class EditPanelItem {
       action: {
         click: () => {
           animate.slideUp(this.dom, 250, elem => {
+            // ISSUE 1: On the this.field.remove() call, if the itemKey suffix doesn't match the item's index,
+            //  then the remove method will remove the wrong element from field.options.data array. The result is
+            //  the wrong element is removed and the wrong options are shown in the preview
+            // FIX 1: (hacky) Don't allow the user to remove any element except the last. Done with CSS. This works
+            // because the itemkey and index will always match because we're always adding and removing from the end
             this.field.remove(this.itemKey)
             dom.remove(elem)
+            // ISSUE 2: The editPanelItem objects are not actually removed from EditPanel. The corresponding dom <li>
+            //  is removed but the internal editPanelItem
+            // FIX 2:  If we're removing an item from the options editPanel, actually remove the editPanelItem
+            if (this.panelName === 'options') {
+              const thisItemKey = this.itemKey
+              const optionsEditPanelItems = this.field.editPanels.find(ep => ep.name === 'options').editPanelItems
+              const thisItemIndex = optionsEditPanelItems.findIndex(epi => epi.itemKey === thisItemKey)
+              if (thisItemIndex >= 0) {
+                optionsEditPanelItems.splice(thisItemIndex, 1)
+              }
+            }
+            // ISSUE 3: The preview isn't updated when an option is removed
+            // FIX 3: Call updatePreview to update the preview panel
+            this.field.updatePreview()
             this.field.resizePanelWrap()
           })
         },

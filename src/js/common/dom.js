@@ -439,7 +439,7 @@ class DOM {
         }
 
         if (isPreview) {
-          optionLabel.attrs.contenteditable = true
+          // optionLabel.attrs.contenteditable = true
         }
 
         return inputWrap

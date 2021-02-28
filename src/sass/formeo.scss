@@ -26,6 +26,13 @@
     @import 'components/stage';
 
     @import 'base/rtl';
+
+    // Override conflict with a moodle css rule
+    .label:empty {
+      display: block;
+      color: #000000;
+      text-align: start;
+    }
   }
 
   &.formeo-render {

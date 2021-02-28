@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>formeo dev editor test</title>
+  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='../dist/formeo.css'>
+</head>
+<body>
+<div class='container'>
+  <h3 class='my-2'>This is a formeo editor test!</h3>
+  <section id='main_content'>
+    <div class='editor-test'></div>
+  </section>
+</div>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'></script>
+<script src='../dist/formeo.js'></script>
+<script>
+  var editorContainer = document.querySelector('.editor-test')
+
+  var editorOptions = {
+    editorContainer,
+    actions: {
+      save: formData => {
+        console.log(formData)
+      }, // do something on save action
+    },
+    controls: {
+      disable: {
+        elements: ['button', 'upload', 'hidden'] // Hide some form field types
+      }
+    },
+    events: {
+      // onUpdate: console.log,
+      onSave: evt => {
+        console.log('EVENT: ' + evt.type + ' details:')
+        console.log(evt.formData)
+      },
+      onUpdate: evt => {
+        console.log('EVENT: ' + evt.type + ' details:')
+        console.log(evt.detail)
+      },
+    },
+    debug: true,
+  }
+  let fe = new FormeoEditor(editorOptions, {})
+</script>
+</body>
+</html>

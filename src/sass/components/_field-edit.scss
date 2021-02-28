@@ -389,3 +389,8 @@
     }
   }
 }
+// Hide the option remove button on all edit panel items except the last. This is to work around a formeo
+// bug that causes problems when items in the middle of the list are removed
+.field-edit .field-edit-options li:not(:last-child) .options-prop-controls button {
+  visibility: hidden;
+}
